@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "sortpy"
+version = "0.1.0"
+description = "Sort photographs (files) by date."
+authors = [
+    "Kristoffer Nilsson-Chavez <sortpy@novafaen.se>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint]
+max-line-length = 120
+good-names = ["i", "j", "k", "v", "x", "y", "z"]
+persistent = false
+exit-zero = false
+
+[tool.flake8]
+max-line-length = 120
+max-complexity = 10
+
+[tool.ruff]
+line-length = 120
+select = ["E", "F", "B", "I", "A", "C", "D", "N", "S", "T"]
+
+[tool.ruff.format]
+quote-style = 'single'

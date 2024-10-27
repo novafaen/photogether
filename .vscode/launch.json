@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Sortpy debug",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/sortpy/sortpy.py",
+            "console": "integratedTerminal",
+            "args": [
+                "tests/ref/from",
+                "tests/ref/to",
+                "--debug"
+            ],
+            "justMyCode": true
+        }
+    ]
+}
