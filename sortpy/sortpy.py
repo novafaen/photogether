@@ -9,14 +9,16 @@ Sort files by:
  - Modified timestamps.
 """
 
-import logging as loggr
+from logging import Formatter, Logger, getLogger, StreamHandler, DEBUG, INFO
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from sys import exit
 
-log = loggr.getLogger(__name__)
+import .database
 
-def init_logging(level: int) -> loggr.Logger:
+log = getLogger(__name__)
+
+def init_logging(level: int) -> Logger:
     """Initiate logging.
 
     :param int level: Level accoding to logging module.
@@ -25,10 +27,10 @@ def init_logging(level: int) -> loggr.Logger:
 
     log.setLevel(level)
 
-    formatter = loggr.Formatter('[%(asctime)s] [%(levelname)s] %(message)s')
+    formatter: Formatter = Formatter('[%(asctime)s] [%(levelname)s] %(message)s')
 
     if len(log.handlers) == 0:
-        sh = loggr.StreamHandler()
+        sh = StreamHandler()
         sh.setLevel(level)
         sh.setFormatter(formatter)
         log.addHandler(sh)
@@ -47,7 +49,7 @@ def main() -> int:
 
     args: Namespace = parser.parse_args()
 
-    init_logging(loggr.DEBUG if args.debug else loggr.INFO)
+    init_logging(DEBUG if args.debug else INFO)
 
     from_path: Path = Path(args.sort).resolve()
     to_path: Path = Path(args.to).resolve()
@@ -65,8 +67,13 @@ def main() -> int:
         log.error(f'Error: Destination folder "{to_path}" does not exist or is not a directory.')
         return 101
 
+    db_path: Path = to_path / 'sorted.db'
+
     log.info(f'Source folder: "{from_path}".')
     log.info(f'Destination folder: "{to_path}".')
+    log.info(f'Using database: "{db_path}".')
+
+    database.initialize_database()
 
     # execute here
 
